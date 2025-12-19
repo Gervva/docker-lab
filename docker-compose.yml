@@ -3,17 +3,21 @@ services:
   app1:
     build: ./app1
     volumes:
-      - ./storage:/storage:ro
+      - ./storage:/app/templates:ro # переносим .html в app/templates, чтобы flask видел его по умолчанию
+    expose:
+    - "8080" # прописываем явно expose
 
   app2:
     build: ./app2
     volumes:
-      - ./storage:/storage:ro
+      - ./storage:/app/templates:ro
+    expose:
+      - "8080"
 
   nginx:
     build: ./nginx
     ports:
-    - "445:445"
+    - "443:443" # изменен порт, nginx слушает 443
     depends_on:
       - app1
       - app2
